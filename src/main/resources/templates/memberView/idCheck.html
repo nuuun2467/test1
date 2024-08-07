@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script>
+	$(document).ready(function() {
+		$('#button').click(function(){
+			let checkId = $(this).data('id');
+			//let id = $(this).attr('data-id')
+			$(opener.document).find('#id').val(checkId); //부모창에서 찾음 //부모창의 id가 id인것을 찾아서 값으로 checkId를 넣음
+			//opener.document.getElementById('id').value = id;
+			window.close(); //본인 창 닫음
+		});
+	});
+	function Open() {
+		//부모창의id가 id인것
+		window.open('joinForm');
+	}
+</script>
+</head>
+<body>
+	<h1>[중복확인]</h1>
+	<form action="idCheck" method="post">
+		검색할ID<input type=text name="searchId"> <input type="submit"
+			value="검색">
+	</form>
+	<!--/*[[${result}]][[${searchId}]]*/-->
+	<div th:if="${result} != true and ${result} != null">
+		<p><span th:text="${searchId}"></span><span>:이미 사용중인 아이디 입니다</span></p>
+		
+	</div>
+	<div th:if="${result} == true">
+		<p ><span th:text="${searchId}"></span><span>:사용 가능한 아이디 입니다</span></p>
+		<p>
+			<input type="button" value="ID사용하기" id="button" th:data-id="${searchId}">
+		</p>
+	</div>
+
+</body>
+</html>

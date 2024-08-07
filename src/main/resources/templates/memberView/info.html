@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script>
+	$(document).ready(function() {
+		$('#form').on('submit',submitevent);
+
+		
+		function submitevent(){
+			
+			var pw1 =$('#pw1').val();
+			var pw2 =$('#pw2').val();
+			var name =$('#name').val();
+
+
+			if((pw1 != pw2||pw1 == null)&&pw1 != ""){
+				alert('비밀번호가 일치하지 않습니다');
+				return false;
+			}
+			
+			if(name== "" || name == null ){
+				alert('이름은 필수입력입니다');
+				return false;
+			}
+			// 모든 조건을 만족하면 폼 제출
+			return true;
+			
+		}
+		
+		
+	});
+</script>
+
+</head>
+<body>
+<!-- /member/joinForm 절대경로  joinForm는 상대경로임 member/joinForm는 상대경로라 @RequestMapping("member")사용한 컨트롤러가 있어서  url에 member/member라고 뜬것 -->
+	<!-- 절대경로는 항상 맨 위에서부터 적어주기 -->
+	<form action="info" method="post" id="form">
+		<table>
+			<caption>
+				<h1>[개인정보 수정]</h1>
+			</caption>
+
+			<tr>
+				<th>ID</th>
+				<!-- /*<input type="text" name="memberId" id="id" th:value="${dto.memberId}">는 위험*/ -->
+				<td colspan="2">[[${dto.memberId}]]</td>
+				
+			</tr>
+			
+			<tr>
+				<th>비밀번호</th>
+				<td colspan="2"><input type="text" name="memberPassword" placeholder="변경시 비밀번호 입력" id="pw1"><br> 
+				<input type="text" placeholder="비밀번호 다시 입력" id="pw2"></td>
+			</tr>
+
+			<tr>
+				<th>이름</th>
+				<td colspan="2"><input type="text" name="memberName" id="name" th:value="${dto.memberName}"></td>
+			</tr>
+			<tr>
+				<th>이메일</th>
+				<td colspan="2"><input type="text" name="email"th:value="${dto.email}"></td>
+			</tr>
+			<tr>
+				<th>전화번호</th>
+				<td colspan="2"><input type="text" name="phone"th:value="${dto.phone}"></td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<td colspan="2"><input type="text" name="address"th:value="${dto.address}"></td>
+			</tr>
+			<tr>
+				<th></th>
+				<td colspan=2><input type="submit" value="수정">
+			    <input type="button" value="다시쓰기"></td>
+
+			</tr>
+		</table>
+</body>
+</html>

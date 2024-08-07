@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script>
+	//함수구현
+	function deleteUser(boardNum) {
+		if (confirm(boardNum + '번 글을 삭제하시겠습니까?')) { //confirm의 리턴값은true,false임
+			//자바스크립트 내장객체: window객체와 같이 미리 만들어진 객체 location 
+			// location 현재 브라우저 창의 URL 정보담겨있음 즉, 현재 주소를 수정함 -> 다른곳 이동
+			//방법2 url의 일부분인 것처럼
+			location.href = 'delete/' + boardNum;
+		}
+
+	}
+	function replyDelete(replyNum, boardNum) {
+		if (confirm('삭제하시겠습니까?')) {
+			location.href = `replyDelete?replyNum=${replyNum}&boardNum=${boardNum}`;
+		}
+	}
+</script>
+<style>
+table {
+	text-align: left;
+	padding: 10px;
+	margin: 0 auto;
+	width: 650px;
+	height: 500px;
+}
+
+td {
+	width: 500px;
+}
+
+#contents {
+	height: 100px; /* 높이를 100px로 설정 */
+}
+
+th {
+	width: 150px;
+	background-color: #f0f0f0;
+}
+
+.center {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<h1>read</h1>
+	<table>
+		<caption>
+			<strong>게시글 읽기</strong>
+
+		</caption>
+		<tr>
+			<th>작성자</th>
+			<td colspan="3" th:text="${read.memberId}"></td>
+		</tr>
+		<tr>
+			<th>작성일</th>
+			<td colspan="3"
+				th:text="${#temporals.format(read.createDate,'yyyy년 MM월 dd일')}"></td>
+		</tr>
+		<tr>
+			<th>조회수</th>
+			<td colspan="3" th:text="${read.viewCount}"></td>
+		</tr>
+		<tr>
+			<th>제목</th>
+			<td colspan="3" th:text="${read.title}"></td>
+		</tr>
+		<tr>
+			<th>내용</th>
+			<td colspan="3" style="white-space: pre-wrap"
+				th:text="${read.contents}" id="contents"></td>
+		</tr>
+		<tr>
+			<th>파일첨부</th>
+			<td colspan="3"  >
+			<img th:src="|/board/download?boardNum=${read.boardNum}|">
+			<a th:text="${read.originalName}"  th:href="|/board/download?boardNum=${read.boardNum}|">수정</a>
+			</td>
+		</tr>
+		<tr sec:authorize="isAuthenticated()"
+			th:if="${#authentication.name == read.memberId}">
+			<!-- name은 사람 이름x, id, 타임리프 문자열비교 ==가능 -->
+			<td colspan="4" class="center">
+			<a th:href="|/board/update?boardNum=${read.boardNum}|">수정</a> <!-- 방법1 -->
+			<a th:href="|javascript:deleteUser('${read.boardNum}')|">삭제</a><!-- 함수사용 + 방법2 -->
+			</td>
+
+
+		</tr>
+		<tr><!-- 리플 입력창 -->
+			<td colspan="4" class="center">
+				<form th:action="@{/board/replyWrite}" method ="post">
+					<input type="hidden" name="boardNum" th:value="${read.boardNum}">
+					<input type="text" name="contents" id="replyContents" style="width:500px;">
+					<input type="submit" value="확인">
+				</form>
+			</td>
+		</tr>
+		<!-- 리플 출력 부분 -->
+		<tr  th:each="reply : ${read.replyList}">
+			<td th:text="${reply.memberId}"></td>
+		<td th:text="${reply.contents}"></td>
+		<td th:text="${#temporals.format(reply.createDate, 'yy.MM.dd HH.mm')}"></td>
+		<td><span th:if="${#authentication.name} == ${reply.memberId}">
+					<a th:href="|javascript:replyDelete(${reply.replyNum}, ${reply.boardNum})|">
+						<img th:src="@{/images/icon_delete.png}" alt="삭제">
+					</a></span></td>
+		</tr>
+		
+	</table>
+</body>
+</html>

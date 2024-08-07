@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script>
+	$(document).ready(function() {
+		$('#form').on('submit',submitevent);
+		$('#button1').on('click', winOpen1); 
+		
+		function submitevent(){
+			var memberId = $('#id').val();
+			var pw1 =$('#pw1').val();
+			var pw2 =$('#pw2').val();
+			var name =$('#name').val();
+			// 아이디가 비어 있는지 확인
+			if (memberId == "" || memberId == null) {
+				alert('아이디를 입력해 주세요');
+				event.preventDefault(); // 폼 제출 방지
+				return false;
+			}
+
+			// 아이디 길이가 2자 이상인지 확인
+			if (memberId.length < 2) {
+				alert('아이디는 최소 두 글자 이상이어야 합니다');
+				event.preventDefault(); // 폼 제출 방지
+				return false;
+			}
+			if(pw1 != pw2||pw1 == null||pw1 == ""){
+				alert('비밀번호가 일치하지 않거나 입력되지 않았습니다');
+				return false;
+			}
+			
+			if(name== "" || name == null ){
+				alert('이름은 필수입력입니다');
+				return false;
+			}
+			// 모든 조건을 만족하면 폼 제출
+			return true;
+			
+		}
+		
+		function winOpen1(){
+			 	//var url = "https://google.co.kr"; // 열고자 하는 URL
+				//window.open('url주소','창이름','창모양');	
+			 	//window.open(url);
+			 	
+			 	//location=no: 주소 표시줄을 숨김, titlebar=40: 제목 표시줄의 높이를 40픽셀로 설정 물론 무시될 수 있음
+			 	//지금 위치에서 상대경로 idCheck 즉 http://localhost:8888/member/joinForm/idCheck
+			window.open('idCheck','IdWin','left=500,top=300,width=400,height=300,location= no,titlebar=40');
+		}
+		
+	});
+</script>
+
+</head>
+<body>
+<!-- /member/joinForm 절대경로  joinForm는 상대경로임 member/joinForm는 상대경로라 @RequestMapping("member")사용한 컨트롤러가 있어서  url에 member/member라고 뜬것 -->
+	<!-- 절대경로는 항상 맨 위에서부터 적어주기 -->
+	<form action="joinForm" method="post" id="form">
+		<table>
+			<caption>
+				<h1>[회원가입]</h1>
+			</caption>
+
+			<tr>
+				<th>ID</th>
+				<td><input type="text" name="memberId" id="id" readonly="readonly" placeholder="id중복확인 이용"></td>
+				<td><input type="button" value="ID중복 확인" id="button1"></td>
+			</tr>
+			
+			<tr>
+				<th>비밀번호</th>
+				<td colspan="2"><input type="text" name="memberPassword" placeholder="비밀번호 입력" id="pw1"><br> 
+				<input type="text" placeholder="비밀번호 다시 입력" id="pw2"></td>
+			</tr>
+
+			<tr>
+				<th>이름</th>
+				<td colspan="2"><input type="text" name="memberName" id="name"placeholder="이름입력"></td>
+			</tr>
+			<tr>
+				<th>이메일</th>
+				<td colspan="2"><input type="text" name="email"placeholder="이메일 입력"></td>
+			</tr>
+			<tr>
+				<th>전화번호</th>
+				<td colspan="2"><input type="text" name="phone"placeholder="전화번호 입력"></td>
+			</tr>
+			<tr>
+				<th>주소</th>
+				<td colspan="2"><input type="text" name="address"placeholder="주소입력"></td>
+			</tr>
+			<tr>
+				<th></th>
+				<td colspan=2><input type="submit" value="가입">
+			    <input type="button" value="다시쓰기"></td>
+
+			</tr>
+		</table>
+</body>
+</html>

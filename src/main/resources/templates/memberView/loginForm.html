@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<script>
+	$(document).ready(function() {
+		if($('#err').length){
+			alert('ID 또는 비밀번호가 틀립니다');
+		}
+	});
+	</script>
+</head>
+<body>
+<h1>[로그인폼]</h1>
+<div th:if="${param.error}" id="err">ID 또는 비밀번호가 틀립니다</div>
+	<form action="/member/login" method="post">
+	ID<input type="text" name="id"><br> <!-- Config에 정한 설정과 동일하게 -->
+	PW<input type="password" name="password"><br> <!-- Config에 정한 설정과 동일하게 -->
+	<button type="submit">Login</button>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<style>
+th{
+background-color: pink }
+
+td[colspan="2"] {
+        text-align: center;
+    }
+</style>
+<body>
+
+	<form action="write" method="post" enctype="multipart/form-data">
+	<!-- enctype="multipart/form-data"이게 없으면 기본 텍스트만들어감. 첨부파일 을 가져가는 역할 -->
+		<table>
+			<caption><h1>[글쓰기]</h1></caption>
+			<tr>
+			<th>제목</th>
+			<td><input type="text" name="title" size="52"></td>
+			</tr>
+			<tr>
+			<th>내용</th>
+			<td><textarea cols="50" rows="10" name="contents"></textarea></td>
+			</tr>
+			<tr>
+			<th>파일첨부</th>
+			<td><input type="file" name="upload"></td>
+			</tr>
+			<tr>
+			<td colspan="2"><input type="submit" value="저장"><td>
+			</tr>
+		</table>
+	</form>
+</body>
+</html>

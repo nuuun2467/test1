@@ -1,0 +1,9 @@
+*경로
+/member/joinForm - 회원가입양식
+/member/join - 회원가입
+/member/loginForm - 로그인
+/member/logout - 로그아웃
+/member/info - 정보수정
+/member/list - 게시판 글 목록
+/member/write - 글쓰기
+/board/delete - 글삭제

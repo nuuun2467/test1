@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+<style>
+    table {
+      width: 100%;
+      border-collapse: collapse; /* 테두리 겹침 제거 */
+    }
+    th, td {
+      padding: 8px; /* 셀 패딩 추가 */
+      text-align: center; /* 가운데 정렬 */
+      vertical-align: middle; /* 수직 가운데 정렬 */
+    }
+    th {
+      width: 200px; /* th 요소 너비 설정 */
+    }
+  </style>
+
+</head>
+<body>
+
+	<!-- /*href="/board/writhe"*/ -->
+	<p>
+		<a href="write">글쓰기</a>
+	</p>
+
+
+	<table>
+		<caption>
+			<h1>[게시판]</h1>
+		</caption>
+		<tr>
+			<th>번호</th>
+			<th>제목</th>
+			<th>작성자</th>
+			<th>조회수</th>
+			<th>작성일</th>
+		</tr>
+		<tr th:each="board,i : ${boardPage}">
+			<td th:text="${boardPage.totalElements - (boardPage.number * boardPage.size) - i.index}"></td>
+			<td th:text="${board.title}"></td> 
+			<td th:text="${board.memberName}"></td>
+			<td th:text="${board.viewCount}"></td>
+			<td th:text="${#temporals.format(board.createDate,'yyyy년 MM월 dd일')}"></td>
+		</tr>
+		<tr>
+
+			<td colspan="5">
+				<form action="list" method="get">
+					<input type="text" name="searchWord"> <input type="submit"
+						value="검색">
+				</form>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>
