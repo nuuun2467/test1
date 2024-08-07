@@ -40,7 +40,7 @@ public class BoardController {
 
 	@Value("${board.uploadPath}")
 	String uploadPath; // 첨부파일 저장 경로
-
+//d
 	// 링크처리 메서드
 
 	@GetMapping("list") // String a = null;(메인화면에서 들어왔을떄), String b=""(검색버튼 눌렀지만 입력않했을때);
